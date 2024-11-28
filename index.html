@@ -1,7 +1,7 @@
 <html><head><base href="." />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mercado Autos - Tu marketplace de autos</title>
+<title>AutoMarket - Tu marketplace de autos</title>
 
 <style>
 :root {
@@ -226,6 +226,27 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    max-height: 90vh; /* Limit height to 90% of viewport height */
+    overflow-y: auto; /* Add vertical scroll when content exceeds height */
+}
+
+/* Add smooth scrollbar styling */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
 }
 
 .form-group {
@@ -392,84 +413,6 @@ body {
 .contact-buttons .btn:hover {
     opacity: 0.9;
 }
-    .footer {
-    background: var(--primary);
-    color: white;
-    padding: 2rem 0;
-    margin-top: 3rem;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    padding: 0 1rem;
-}
-
-.footer-section h3 {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-}
-
-.footer-section ul {
-    list-style: none;
-}
-
-.footer-section ul li {
-    margin-bottom: 0.5rem;
-}
-
-.footer-section a {
-    color: white;
-    text-decoration: none;
-    transition: opacity 0.2s;
-}
-
-.footer-section a:hover {
-    opacity: 0.8;
-}
-
-.social-icons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
-}
-
-.social-icon {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50%;
-    transition: background 0.2s;
-}
-
-.social-icon:hover {
-    background: rgba(255,255,255,0.2);
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 2rem;
-    margin-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-@media (max-width: 768px) {
-    .footer-content {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-    .footer-content {
-        grid-template-columns: 1fr;
-    }
-}
 </style>
 
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -479,7 +422,7 @@ body {
 
 <nav class="navbar">
     <div class="navbar-content">
-        <h1>Mercado Autos</h1>
+        <h1>AutoMarket</h1>
         <div class="search-bar">
             <input type="text" placeholder="Buscar vehículos...">
         </div>
@@ -515,87 +458,23 @@ body {
         <div class="filter-options">
             <select id="marca">
                 <option value="">Marca</option>
-                <option value="audi">Audi</option>
-                <option value="bmw">BMW</option>
-                <option value="chery">Chery</option>
+                <option value="toyota">Toyota</option>
+                <option value="honda">Honda</option>
+                <option value="volkswagen">Volkswagen</option>
                 <option value="chevrolet">Chevrolet</option>
-              <option value="chrysler">Chrysler</option>
-              <option value="citroen">Citroen</option>
-              <option value="dfm">DFM</option>
-              <option value="dfsk">DFSK</option>
-              <option value="ds">DS</option>
-              <option value="ferrari">Ferrari</option>
-              <option value="fiat">Fiat</option>
-              <option value="ford">Ford</option>
-              <option value="honda">Honda</option>
-              <option value="hyundai">Hyundai</option>
-              <option value="iveco">Iveco</option>
-              <option value="jac motors">Jac Motors</option>
-              <option value="jaguar">Jaguar</option>
-              <option value="jmc">JMC</option>
-              <option value="kama">Kama</option>
-              <option value="kia">KIA</option>
-              <option value="lifan">Lifan</option>
-              <option value="maserati">Maserati</option>
-              <option value="mercedez benz">Mercedes Benz</option>
-              <option value="mini cooper">Mini Cooper</option>
-              <option value="mitsubishi">Mitsubishi</option>
-              <option value="nissan">Nissan</option>
-              <option value="peugeot">Peugeot</option>
-              <option value="porsche">Porsche</option>
-              <option value="renault">Renault</option>
-              <option value="rover land rover">Rover Land Rover</option>
-              <option value="saab">Saab</option>
-              <option value="scania">Scania</option>
-              <option value="seat">Seat</option>
-              <option value="shineray">Shineray</option>
-              <option value="smart">Smart</option>
-              <option value="squeast">Squeast</option>
-              <option value="subaru">Subaru</option>
-              <option value="suuki">Suzuki</option>
-              <option value="toyota">Toyota</option>
-              <option value="volkswagen">Volkswagen</option>
-              <option value="volvo">Volvo</option>
-            
             </select>
             <select id="año">
                 <option value="">Año</option>
-                <option value="2025">2025</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
+                <option value="2023">2023</option>
                 <option value="2022">2022</option>
                 <option value="2021">2021</option>
                 <option value="2020">2020</option>
-              <option value="2019">2019</option>
-              <option value="2018">2018</option>
-              <option value="2017">2017</option>
-              <option value="2016">2016</option>
-              <option value="2015">2015</option>
-              <option value="2014">2014</option>
-              <option value="2013">2013</option>
-              <option value="2012">2012</option>
-              <option value="2011">2011</option>
-              <option value="2010">2010</option>
-              <option value="2009">2009</option>
-              <option value="2008">2008</option>
-              <option value="2007">2007</option>
-              <option value="2006">2006</option>
-              <option value="2005">2005</option>
-              <option value="2004">2004</option>
-              <option value="2003">2003</option>
-              <option value="2002">2002</option>
-              <option value="2001">2001</option>
-              <option value="2000">2000</option>
-              <option value="1999">1999</option>
-              <option value="1998">1998</option>
             </select>
             <select id="precio">
                 <option value="">Rango de precio</option>
-                <option value="0-5000000">$0 - $5,000,000</option>
-                <option value="5000000-10000000">$5,000,000 - $10,000,000</option>
-              <option value="10000000-20000000">$10,000,000 - $20,000,000</option>
-              <option value="2000000-40000000">$20,000,000 - $40,000,000</option>
-                <option value="40000000+">$40,000,000+</option>
+                <option value="0-10000">$0 - $10,000</option>
+                <option value="10000-20000">$10,000 - $20,000</option>
+                <option value="20000+">$20,000+</option>
             </select>
         </div>
     </section>
@@ -677,10 +556,6 @@ body {
                 <input type="text" name="model" required>
             </div>
             <div class="form-group">
-                <label>Versión:</label>
-                <input type="text" name="model" required>
-            </div>
-            <div class="form-group">
                 <label>Año:</label>
                 <input type="number" name="year" min="1900" max="2024" required>
             </div>
@@ -692,13 +567,12 @@ body {
                 <label>Tipo de vehículo:</label>
                 <select name="vehicleType" required>
                     <option value="">Seleccionar tipo</option>
-                    <option value="Moto">Moto</option>
                     <option value="Sedan">Sedán</option>
                     <option value="SUV">SUV</option>
                     <option value="Pickup">Pickup</option>
                     <option value="Hatchback">Hatchback</option>
                     <option value="Coupé">Coupé</option>
-                    <option value="Minivan">Minivan/Furgón</option>
+                    <option value="Van">Van/Furgón</option>
                     <option value="Wagon">Rural/Wagon</option>
                 </select>
             </div>
@@ -706,15 +580,6 @@ body {
                 <label>Precio:</label>
                 <input type="number" name="price" min="0" required>
             </div>
-            <div class="form-group">
-                <label>Vendedor:</label>
-                <input type="text" name="model" required placeholder="Ej: Juan Pérez...">
-            </div>
-            <div class="form-group">
-                <label>Contacto:</label>
-                <input type="text" name="model" required placeholder="Ej: 11 2233 4455...">
-            </div>
-
             <div class="form-group">
                 <label>Detalles:</label>
                 <textarea name="details" required></textarea>
@@ -755,380 +620,50 @@ const cars = [
         price: 29990000,
         kilometers: 0,
         vehicleType: 'SUV',
-        whatsapp: '5493413036177',
+        whatsapp: '5491123456789',
         images: [
-            'https://media.toyota.com.ar/0b05de0e-680f-48e8-9b47-ad17d06c691b.png',
-            'https://media.toyota.com.ar/297c934d-503c-4e6f-862c-596712c61623.jpeg',
-            'https://media.toyota.com.ar/4ee6ddf5-debe-42cd-b488-f14c5e8e1b5b.png'
+            'https://www.toyota.com.ar/sites/default/files/models/colorizer/corolla_cross_blanco_perla.png',
+            'https://www.toyota.com.ar/sites/default/files/models/gallery/corolla_cross_10.jpg',
+            'https://www.toyota.com.ar/sites/default/files/models/gallery/corolla_cross_06.jpg'
         ],
         details: 'SUV, 0 km, Automático, Híbrido, XEI CVT Híbrida'
     },
     {
         id: 2,
-        brand: 'Honda',
-        model: 'Wave 110',
-        year: 2024,
-        price: 2750000,
-        kilometers: 0,
-        vehicleType: 'Moto',
-        whatsapp: '5493413036177',
-        images: ['https://motos.honda.com.ar/uploads/modelos/21/images/versiones/21v-0wave-blanca-tambor.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/21/images/colores/21c-0web-wave-2020-roja.jpg'],
-        details: 'Moto, 0 km, Manual, Nafta, Sport',
-        featured: true
-    },
-     {
-        id: 3,
-        brand: 'Toyota',
-        model: 'Corolla Cross',
-        year: 2023,
-        price: 29990000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: [
-            'https://media.toyota.com.ar/0b05de0e-680f-48e8-9b47-ad17d06c691b.png',
-            'https://media.toyota.com.ar/297c934d-503c-4e6f-862c-596712c61623.jpeg',
-            'https://media.toyota.com.ar/4ee6ddf5-debe-42cd-b488-f14c5e8e1b5b.png'
-        ],
-        details: 'SUV, 0 km, Automático, Híbrido, XEI CVT Híbrida'
-    },
-     {
-        id: 4,
-        brand: 'Toyota',
-        model: 'Corolla Cross',
-        year: 2023,
-        price: 29990000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: [
-            'https://media.toyota.com.ar/0b05de0e-680f-48e8-9b47-ad17d06c691b.png',
-            'https://media.toyota.com.ar/297c934d-503c-4e6f-862c-596712c61623.jpeg',
-            'https://media.toyota.com.ar/4ee6ddf5-debe-42cd-b488-f14c5e8e1b5b.png'
-        ],
-        details: 'SUV, 0 km, Automático, Híbrido, XEI CVT Híbrida'
-    },
-     {
-        id: 5,
-        brand: 'Toyota',
-        model: 'Corolla Cross',
-        year: 2023,
-        price: 29990000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: [
-            'https://media.toyota.com.ar/0b05de0e-680f-48e8-9b47-ad17d06c691b.png',
-            'https://media.toyota.com.ar/297c934d-503c-4e6f-862c-596712c61623.jpeg',
-            'https://media.toyota.com.ar/4ee6ddf5-debe-42cd-b488-f14c5e8e1b5b.png'
-        ],
-        details: 'SUV, 0 km, Automático, Híbrido, XEI CVT Híbrida'
-    },
-    {
-        id: 6,
         brand: 'Volkswagen',
         model: 'Taos',
         year: 2023,
         price: 27500000,
         kilometers: 0,
         vehicleType: 'SUV',
-        whatsapp: '5493413036177',
+        whatsapp: '5491123456789',
         images: [
-            'https://assets.volkswagen.com/is/image/volkswagenag/5-93?Zml0PWNyb3AsMSZmbXQ9d2VicCZxbHQ9Nzkmd2lkPTE4MDAmaGVpPTEwODAmYWxpZ249MC4wMCwwLjAwJmJmYz1vZmYmYmEyYQ==',
+            'https://www.volkswagen.com.ar/content/dam/onehub_pkw/importers/ar/models/2023/taos-my23/taos-hero-white.png',
             'https://www.volkswagen.com.ar/content/dam/onehub_pkw/importers/ar/models/2023/taos-my23/taos-lateral-white.png',
             'https://www.volkswagen.com.ar/content/dam/onehub_pkw/importers/ar/models/2023/taos-my23/taos-back-white.png'
         ],
         details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi'
     },
     {
-        id: 7,
+        id: 3,
         brand: 'Honda',
         model: 'HR-V',
         year: 2023,
         price: 26990000,
         kilometers: 0,
         vehicleType: 'SUV',
-        whatsapp: '5493413036177',
+        whatsapp: '5491123456789',
         images: [
             'https://www.honda.com.ar/sites/default/files/2023-01/hrv-blanc.png',
             'https://www.honda.com.ar/sites/default/files/2023-01/hrv-back.png',
             'https://www.honda.com.ar/sites/default/files/2023-01/hrv-side.png'
         ],
         details: 'SUV, 0 km, Automático CVT, Nafta, EXL'
-    },
-        {
-        id: 8,
-        brand: 'Honda',
-        model: 'Navi 110',
-        year: 2024,
-        price: 2750000,
-        kilometers: 0,
-        vehicleType: 'Moto',
-        whatsapp: '5493413036177',
-        images: ['https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_2s-2img-navi-sportrojo.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_1s-1img-navi-adventure.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_3s-3img-navi-sportblanco.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_7s-7img-navi-magenta.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_0s-0img-navi-kit-rally.jpg'],
-        details: 'Moto, 0 km, Manual, Nafta, Sport',
-        featured: true
-    },
-     {
-        id: 9,
-        brand: 'Honda',
-        model: 'Wave 110',
-        year: 2024,
-        price: 2750000,
-        kilometers: 0,
-        vehicleType: 'Moto',
-        whatsapp: '5493413036177',
-        images: ['https://motos.honda.com.ar/uploads/modelos/21/images/versiones/21v-0wave-blanca-tambor.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/21/images/colores/21c-0web-wave-2020-roja.jpg'],
-        details: 'Moto, 0 km, Manual, Nafta, Sport',
-        featured: true
-    },
-      {
-        id: 10,
-        brand: 'Volkswagen',
-        model: 'Taos',
-        year: 2023,
-        price: 27500000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: [
-            'https://assets.volkswagen.com/is/image/volkswagenag/5-93?Zml0PWNyb3AsMSZmbXQ9d2VicCZxbHQ9Nzkmd2lkPTE4MDAmaGVpPTEwODAmYWxpZ249MC4wMCwwLjAwJmJmYz1vZmYmYmEyYQ=='
-        ],
-        details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi',
-        featured: true
-    },
-       {
-        id: 11,
-        brand: 'Volkswagen',
-        model: 'Taos',
-        year: 2023,
-        price: 27500000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: [
-            'https://assets.volkswagen.com/is/image/volkswagenag/5-93?Zml0PWNyb3AsMSZmbXQ9d2VicCZxbHQ9Nzkmd2lkPTE4MDAmaGVpPTEwODAmYWxpZ249MC4wMCwwLjAwJmJmYz1vZmYmYmEyYQ=='
-        ],
-        details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi',
-        featured: true
-    },
-      {
-        id: 12,
-        brand: 'Volkswagen',
-        model: 'Taos',
-        year: 2023,
-        price: 27500000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: [
-            'https://assets.volkswagen.com/is/image/volkswagenag/5-93?Zml0PWNyb3AsMSZmbXQ9d2VicCZxbHQ9Nzkmd2lkPTE4MDAmaGVpPTEwODAmYWxpZ249MC4wMCwwLjAwJmJmYz1vZmYmYmEyYQ=='
-        ],
-        details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi',
-        featured: true
-    },
-       {
-        id: 13,
-        brand: 'Volkswagen',
-        model: 'Amarok',
-        year: 2025,
-        price: 34500000,
-        kilometers: 0,
-        vehicleType: 'Pickup',
-        whatsapp: '5493413036177',
-        images: [
-               'https://assets.volkswagen.com/is/image/volkswagenag/00-AMAROK?Zml0PWNyb3AsMSZmbXQ9d2VicCZxbHQ9Nzkmd2lkPTk2MCZoZWk9NjQwJmFsaWduPTAuMDAsMC4wMCZiZmM9b2ZmJjUxNjE='],
-        details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi',
-        featured: true
-    },
-      {
-        id: 14,
-        brand: 'Volkswagen',
-        model: 'Amarok',
-        year: 2025,
-        price: 34500000,
-        kilometers: 0,
-        vehicleType: 'Pickup',
-        whatsapp: '5493413036177',
-        images: [
-               'https://http2.mlstatic.com/D_NQ_NP_863657-MLA80585385784_112024-O.webp'],
-        details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi',
-        featured: true
-    },
-     {
-        id: 15,
-        brand: 'Fiat',
-        model: 'Cronos',
-        year: 2025,
-        price: 23500000,
-        kilometers: 0,
-        vehicleType: 'Sedan',
-        whatsapp: '5493413036177',
-        images: [
-               'https://http2.mlstatic.com/D_NQ_NP_2X_715830-MLA80856112175_112024-F.webp'],
-        details: 'Sedan, 0 km, Automático, Nafta, Drive',
-        featured: true
-    },
-      {
-        id: 16,
-        brand: 'Fiat',
-        model: 'Cronos',
-        year: 2025,
-        price: 23500000,
-        kilometers: 0,
-        vehicleType: 'Sedan',
-        whatsapp: '5493413036177',
-        images: [
-               'https://http2.mlstatic.com/D_NQ_NP_2X_613857-MLA80592392062_112024-F.webp'],
-        details: 'Sedan, 0 km, Automático, Nafta, GSE Pack Conectividad',
-        featured: true
-    },
-      {
-        id: 17,
-        brand: 'Fiat',
-        model: 'Cronos',
-        year: 2025,
-        price: 23500000,
-        kilometers: 0,
-        vehicleType: 'Sedan',
-        whatsapp: '5493413036177',
-        images: [
-               'https://http2.mlstatic.com/D_NQ_NP_2X_863183-MLA80854349533_112024-F.webp'],
-        details: 'Sedan, 0 km, Automático, Nafta, 1.3 Precision Cvt',
-        featured: true
-    },
-    {
-        id: 18,
-        brand: 'Jeep',
-        model: 'Renegade',
-        year: 2024,
-        price: 28500000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: ['https://http2.mlstatic.com/D_NQ_NP_2X_929295-MLA80588675722_112024-F.webp'],
-        details: 'SUV, 0 km, Manual, Nafta, Sport',
-        featured: true
-    },
-    {
-        id: 19,
-        brand: 'Peugeot',
-        model: '2008',
-        year: 2025,
-        price: 30990000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: ['https://http2.mlstatic.com/D_NQ_NP_2X_940293-MLA80592514120_112024-F.webp',
-                 'https://http2.mlstatic.com/D_NQ_NP_2X_729216-MLA80592623180_112024-F.webp',
-                 'https://http2.mlstatic.com/D_NQ_NP_2X_990822-MLA80592623184_112024-F.webp'],
-        details: 'SUV, 0 km, Automático, Nafta, Feline',
-        featured: true
-    },
-     {
-        id: 20,
-        brand: 'Renault',
-        model: 'Duster',
-        year: 2025,
-        price: 25990000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: ['https://http2.mlstatic.com/D_NQ_NP_2X_662938-MLA80851656845_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_729821-MLA80851558851_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_750959-MLA80851549123_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_811729-MLA80588951590_112024-F.webp'],
-        details: 'SUV, 0 km, Manual, Nafta, Iconic',
-        featured: true
-    },
-     {
-        id: 21,
-        brand: 'Fiat',
-        model: 'Pulse',
-        year: 2025,
-        price: 24990000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: ['https://http2.mlstatic.com/D_NQ_NP_2X_761796-MLA80855039613_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_739240-MLA80592292038_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_658244-MLA80855029777_112024-F.webp'],
-        details: 'SUV, 0 km, Manual, Nafta, Drive',
-        featured: true
-    },
-     {
-        id: 22,
-        brand: 'Nissan',
-        model: 'Kicks',
-        year: 2025,
-        price: 30990000,
-        kilometers: 0,
-        vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: ['https://http2.mlstatic.com/D_NQ_NP_2X_665367-MLA80817967057_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_864712-MLA80555632440_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_978179-MLA80817818849_112024-F.webp'],
-        details: 'SUV, 0 km, Automático CVT, Nafta, Exclusive',
-        featured: true
-    },
-     {
-        id: 23,
-        brand: 'Honda',
-        model: 'Navi 110',
-        year: 2024,
-        price: 2750000,
-        kilometers: 0,
-        vehicleType: 'Moto',
-        whatsapp: '5493413036177',
-        images: ['https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_2s-2img-navi-sportrojo.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_1s-1img-navi-adventure.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_3s-3img-navi-sportblanco.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_7s-7img-navi-magenta.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_0s-0img-navi-kit-rally.jpg'],
-        details: 'Moto, 0 km, Manual, Nafta, Sport',
-        featured: true
-    },
-
-
+    }
 ];
 
 const featuredCars = [
     {
-        id: 13,
-        brand: 'Volkswagen', 
-        model: 'Amarok',
-        year: 2025,
-        price: 34500000,
-        kilometers: 0,
-        vehicleType: 'Pickup',
-        whatsapp: '5493413036177',
-        images: [
-               'https://assets.volkswagen.com/is/image/volkswagenag/00-AMAROK?Zml0PWNyb3AsMSZmbXQ9d2VicCZxbHQ9Nzkmd2lkPTk2MCZoZWk9NjQwJmFsaWduPTAuMDAsMC4wMCZiZmM9b2ZmJjUxNjE='],
-        details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi',
-        featured: true
-    },
-    {
-        id: 14,
-        brand: 'Volkswagen',
-        model: 'Amarok',
-        year: 2025,
-        price: 34500000,
-        kilometers: 0,
-        vehicleType: 'Pickup',
-        whatsapp: '5493413036177',
-        images: [
-               'https://http2.mlstatic.com/D_NQ_NP_863657-MLA80585385784_112024-O.webp'],
-        details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi',
-        featured: true
-    },
-
-   {
         id: 1,
         brand: 'Toyota',
         model: 'Corolla Cross',
@@ -1136,175 +671,134 @@ const featuredCars = [
         price: 29990000,
         kilometers: 0,
         vehicleType: 'SUV',
-        whatsapp: '5493413036177',
+        whatsapp: '5491123456789',
         images: [
-            'https://media.toyota.com.ar/0b05de0e-680f-48e8-9b47-ad17d06c691b.png',
-            'https://media.toyota.com.ar/297c934d-503c-4e6f-862c-596712c61623.jpeg',
-            'https://media.toyota.com.ar/4ee6ddf5-debe-42cd-b488-f14c5e8e1b5b.png'
+            'https://www.toyota.com.ar/sites/default/files/models/colorizer/corolla_cross_blanco_perla.png'
         ],
-        details: 'SUV, 0 km, Automático, Híbrido, XEI CVT Híbrida'
-    },
-   {
-        id: 15,
-        brand: 'Fiat',
-        model: 'Cronos',
-        year: 2025,
-        price: 23500000,
-        kilometers: 0,
-        vehicleType: 'Sedan',
-        whatsapp: '5493413036177',
-        images: [
-               'https://http2.mlstatic.com/D_NQ_NP_2X_715830-MLA80856112175_112024-F.webp'],
-        details: 'Sedan, 0 km, Automático, Nafta, Drive',
+        details: 'SUV, 0 km, Automático, Híbrido, XEI CVT Híbrida',
         featured: true
     },
     {
-        id: 18,
+        id: 2,
+        brand: 'Honda',
+        model: 'HR-V',
+        year: 2023,
+        price: 26990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: [
+            'https://www.honda.com.ar/sites/default/files/2023-01/hrv-blanc.png'
+        ],
+        details: 'SUV, 0 km, Automático CVT, Nafta, EXL',
+        featured: true
+    },
+    {
+        id: 3,
+        brand: 'Volkswagen', 
+        model: 'Taos',
+        year: 2023,
+        price: 27500000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: [
+            'https://www.volkswagen.com.ar/content/dam/onehub_pkw/importers/ar/models/2023/taos-my23/taos-hero-white.png'
+        ],
+        details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi',
+        featured: true
+    },
+    {
+        id: 4,
+        brand: 'Ford',
+        model: 'Bronco Sport',
+        year: 2023,
+        price: 31990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: ['https://www.ford.com.ar/content/dam/Ford/website-assets/latam/ar/nameplate/bronco-sport/2023/colorizer/area51/desktop/bronco-sport.jpg'],
+        details: 'SUV, 0 km, Automático, Nafta, Wildtrak',
+        featured: true
+    },
+    {
+        id: 5,
+        brand: 'Chevrolet',
+        model: 'Tracker',
+        year: 2023,
+        price: 25990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: ['https://www.chevrolet.com.ar/content/dam/chevrolet/mercosur/argentina/espanol/index/suv-and-crossovers/2023-tracker/colorizer/01-images/nueva-tracker-summit-white.png'],
+        details: 'SUV, 0 km, Automático, Nafta, Premier',
+        featured: true
+    },
+    {
+        id: 6,
         brand: 'Jeep',
         model: 'Renegade',
-        year: 2024,
+        year: 2023,
         price: 28500000,
         kilometers: 0,
         vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: ['https://http2.mlstatic.com/D_NQ_NP_2X_929295-MLA80588675722_112024-F.webp'],
+        whatsapp: '5491123456789',
+        images: ['https://www.jeep.com.ar/content/dam/jeep/products/671/2do/jeep-renegade-sport.png'],
         details: 'SUV, 0 km, Manual, Nafta, Sport',
         featured: true
     },
     {
-        id: 19,
+        id: 7,
         brand: 'Peugeot',
         model: '2008',
-        year: 2025,
-        price: 30990000,
+        year: 2023,
+        price: 26990000,
         kilometers: 0,
         vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: ['https://http2.mlstatic.com/D_NQ_NP_2X_940293-MLA80592514120_112024-F.webp',
-                 'https://http2.mlstatic.com/D_NQ_NP_2X_729216-MLA80592623180_112024-F.webp',
-                 'https://http2.mlstatic.com/D_NQ_NP_2X_990822-MLA80592623184_112024-F.webp'],
+        whatsapp: '5491123456789',
+        images: ['https://www.peugeot.com.ar/content/dam/peugeot/argentina/b-2008-suv/colorizer/2008-blanco-nacarado.png'],
         details: 'SUV, 0 km, Automático, Nafta, Feline',
         featured: true
     },
     {
-        id: 20,
+        id: 8,
         brand: 'Renault',
         model: 'Duster',
-        year: 2025,
-        price: 25990000,
+        year: 2023,
+        price: 24990000,
         kilometers: 0,
         vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: ['https://http2.mlstatic.com/D_NQ_NP_2X_662938-MLA80851656845_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_729821-MLA80851558851_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_750959-MLA80851549123_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_811729-MLA80588951590_112024-F.webp'],
+        whatsapp: '5491123456789',
+        images: ['https://www.renault.com.ar/agg/vn/unique/ClsProductLineModelPortraitGalleryImage/images/vehicles/duster-ph2-argentina.png.ximg.large.webp'],
         details: 'SUV, 0 km, Manual, Nafta, Iconic',
         featured: true
     },
     {
-        id: 21,
+        id: 9,
         brand: 'Fiat',
         model: 'Pulse',
-        year: 2025,
-        price: 24990000,
+        year: 2023,
+        price: 23990000,
         kilometers: 0,
         vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: ['https://http2.mlstatic.com/D_NQ_NP_2X_761796-MLA80855039613_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_739240-MLA80592292038_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_658244-MLA80855029777_112024-F.webp'],
+        whatsapp: '5491123456789',
+        images: ['https://www.fiat.com.ar/content/dam/fiat/products/621/ac6/pulse-drive-mt.png'],
         details: 'SUV, 0 km, Manual, Nafta, Drive',
         featured: true
     },
     {
-        id: 22,
+        id: 10,
         brand: 'Nissan',
         model: 'Kicks',
-        year: 2025,
-        price: 30990000,
+        year: 2023,
+        price: 27990000,
         kilometers: 0,
         vehicleType: 'SUV',
-        whatsapp: '5493413036177',
-        images: ['https://http2.mlstatic.com/D_NQ_NP_2X_665367-MLA80817967057_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_864712-MLA80555632440_112024-F.webp',
-        'https://http2.mlstatic.com/D_NQ_NP_2X_978179-MLA80817818849_112024-F.webp'],
+        whatsapp: '5491123456789',
+        images: ['https://www.nissan.com.ar/content/dam/Nissan/ar/vehicles/kicks-my20/colors/kicks-gris-plata.png.ximg.l_full_m.smart.png'],
         details: 'SUV, 0 km, Automático CVT, Nafta, Exclusive',
         featured: true
-    },
-    {
-        id: 23,
-        brand: 'Honda',
-        model: 'Navi 110',
-        year: 2024,
-        price: 2750000,
-        kilometers: 0,
-        vehicleType: 'Moto',
-        whatsapp: '5493413036177',
-        images: ['https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_2s-2img-navi-sportrojo.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_1s-1img-navi-adventure.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_3s-3img-navi-sportblanco.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_7s-7img-navi-magenta.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/61/images/sliders/336_0s-0img-navi-kit-rally.jpg'],
-        details: 'Moto, 0 km, Manual, Nafta, Sport',
-        featured: true
-    },
-  {
-        id: 2,
-        brand: 'Honda',
-        model: 'Wave 110',
-        year: 2024,
-        price: 2750000,
-        kilometers: 0,
-        vehicleType: 'Moto',
-        whatsapp: '5493413036177',
-        images: ['https://motos.honda.com.ar/uploads/modelos/21/images/versiones/21v-0wave-blanca-tambor.jpg',
-                 'https://motos.honda.com.ar/uploads/modelos/21/images/colores/21c-0web-wave-2020-roja.jpg'],
-        details: 'Moto, 0 km, Manual, Nafta, Sport',
-        featured: true
-    },
-      {
-        id: 15,
-        brand: 'Fiat',
-        model: 'Cronos',
-        year: 2025,
-        price: 23500000,
-        kilometers: 0,
-        vehicleType: 'Sedan',
-        whatsapp: '5493413036177',
-        images: [
-               'https://http2.mlstatic.com/D_NQ_NP_2X_715830-MLA80856112175_112024-F.webp'],
-        details: 'Sedan, 0 km, Automático, Nafta, Drive',
-        featured: true
-    },
-      {
-        id: 15,
-        brand: 'Fiat',
-        model: 'Cronos',
-        year: 2025,
-        price: 23500000,
-        kilometers: 0,
-        vehicleType: 'Sedan',
-        whatsapp: '5493413036177',
-        images: [
-               'https://http2.mlstatic.com/D_NQ_NP_2X_715830-MLA80856112175_112024-F.webp'],
-        details: 'Sedan, 0 km, Automático, Nafta, Drive',
-        featured: true
-    },
-    {
-        id: 15,
-        brand: 'Fiat',
-        model: 'Cronos',
-        year: 2025,
-        price: 23500000,
-        kilometers: 0,
-        vehicleType: 'Sedan',
-        whatsapp: '5493413036177',
-        images: [
-               'https://http2.mlstatic.com/D_NQ_NP_2X_715830-MLA80856112175_112024-F.webp'],
-        details: 'Sedan, 0 km, Automático, Nafta, Drive',
-        featured: true
-    },
+    }
 ];
 
 // Initialize MercadoPago
@@ -1470,7 +964,7 @@ function showCarDetail(carId) {
     const detailContent = document.getElementById('carDetailContent');
     const contactButtons = `
         <div class="contact-buttons" style="display: flex; gap: 1rem; margin-top: 1rem;">
-            <a href="https://wa.me/${car.whatsapp}?text=Hola, me interesa tu ${car.brand} ${car.model} ${car.year} publicado en Mercado Autos"
+            <a href="https://wa.me/${car.whatsapp}?text=Hola, me interesa tu ${car.brand} ${car.model} ${car.year} publicado en AutoMarket" 
                target="_blank" 
                class="btn" 
                style="background: #25D366; display: flex; align-items: center; gap: 0.5rem;">
@@ -1607,67 +1101,155 @@ function showPublishModal() {
     document.getElementById('publishModal').style.display = 'block';
 }
 
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
-
-function toggleUserMenu() {
-    document.getElementById('userMenuContent').classList.toggle('show');
-}
-
-function login(event) {
-    event.preventDefault();
-    currentUser = {
-        name: 'Usuario Demo',
-        email: 'demo@example.com',
-        whatsapp: '5493413036177' // Added WhatsApp number
-    };
-    updateAuthUI();
-    closeModal('loginModal');
-}
-
-function register(event) {
-    event.preventDefault();
-    const form = event.target;
+function showMyListings() {
+    const userListings = cars.filter(car => car.whatsapp === currentUser.whatsapp);
     
-    const userData = {
-        nombre: form.querySelector('[name="nombre"]').value,
-        apellido: form.querySelector('[name="apellido"]').value,
-        empresa: form.querySelector('[name="empresa"]').value,
-        Ciudad: form.querySelector('[name="ciudad"]').value,
-        whatsapp: form.querySelector('[name="whatsapp"]').value,
-        email: form.querySelector('[name="email"]').value,
-        password: form.querySelector('[name="password"]').value
-    };
+    const modalContent = `
+    <div class="modal" id="myListingsModal" style="display: block;">
+        <div class="modal-content" style="width: 95%; max-width: 1200px;">
+            <span class="close" onclick="closeModal('myListingsModal')">&times;</span>
+            <h2>Mis Publicaciones</h2>
+            
+            <div class="listings-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <div class="stat-card" style="background: white; padding: 1rem; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h3>Total de Publicaciones</h3>
+                    <p style="font-size: 2rem; color: var(--primary);">${userListings.length}</p>
+                </div>
+                <div class="stat-card" style="background: white; padding: 1rem; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h3>Publicaciones Destacadas</h3>
+                    <p style="font-size: 2rem; color: var(--primary);">${userListings.filter(car => car.featured).length}</p>
+                </div>
+            </div>
 
-    sessionStorage.setItem('pendingRegistration', JSON.stringify(userData));
-}
-
-function logout() {
-    currentUser = null;
-    updateAuthUI();
-}
-
-function updateAuthUI() {
-    const authButtons = document.getElementById('authButtons');
-    const userMenu = document.getElementById('userMenu');
+            <div class="listings-table-wrapper" style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; background: white;">
+                    <thead>
+                        <tr style="background: var(--primary); color: white;">
+                            <th style="padding: 1rem;">Imagen</th>
+                            <th style="padding: 1rem;">Vehículo</th>
+                            <th style="padding: 1rem;">Precio</th>
+                            <th style="padding: 1rem;">Estado</th>
+                            <th style="padding: 1rem;">Destacado</th>
+                            <th style="padding: 1rem;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${userListings.map(car => `
+                            <tr style="border-bottom: 1px solid #eee;">
+                                <td style="padding: 1rem;">
+                                    <img src="${car.images[0]}" 
+                                         alt="${car.brand} ${car.model}" 
+                                         style="width: 100px; height: 70px; object-fit: cover; border-radius: 4px;">
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <strong>${car.brand} ${car.model}</strong><br>
+                                    <small>${car.year} - ${car.kilometers}km</small>
+                                </td>
+                                <td style="padding: 1rem;">$${car.price.toLocaleString()}</td>
+                                <td style="padding: 1rem;">
+                                    <span class="status-badge" style="background: #28a745; color: white; padding: 0.25rem 0.5rem; border-radius: 4px;">
+                                        Activa
+                                    </span>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    ${car.featured ? 
+                                        '<span style="color: #ffc107;">★ Destacada</span>' : 
+                                        `<button class="btn" onclick="upgradeToPremium(${car.id})" style="font-size: 0.9rem;">
+                                            Destacar
+                                        </button>`
+                                    }
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn" onclick="editListing(${car.id})" 
+                                                style="background: var(--secondary);">
+                                            Editar
+                                        </button>
+                                        <button class="btn" onclick="deleteListing(${car.id})"
+                                                style="background: #dc3545;">
+                                            Eliminar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>`;
     
-    if (currentUser) {
-        authButtons.style.display = 'none';
-        userMenu.style.display = 'block';
-    } else {
-        authButtons.style.display = 'flex';
-        userMenu.style.display = 'none';
+    // Add modal to body
+    const modalDiv = document.createElement('div');
+    modalDiv.innerHTML = modalContent;
+    document.body.appendChild(modalDiv);
+}
+
+function editListing(carId) {
+    const car = cars.find(c => c.id === carId);
+    if (!car) return;
+    
+    // Pre-fill publish form with car data
+    const form = document.getElementById('publishForm');
+    form.querySelector('[name="brand"]').value = car.brand;
+    form.querySelector('[name="model"]').value = car.model;
+    form.querySelector('[name="year"]').value = car.year;
+    form.querySelector('[name="kilometers"]').value = car.kilometers;
+    form.querySelector('[name="vehicleType"]').value = car.vehicleType;
+    form.querySelector('[name="price"]').value = car.price;
+    form.querySelector('[name="details"]').value = car.details;
+    form.querySelector('[name="featured"]').checked = car.featured;
+    
+    // Add edit mode flag and car ID
+    form.dataset.editMode = true;
+    form.dataset.editCarId = carId;
+    
+    // Show publish modal in edit mode
+    closeModal('myListingsModal');
+    showPublishModal();
+}
+
+function deleteListing(carId) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
+        // Remove from cars array
+        const carIndex = cars.findIndex(c => c.id === carId);
+        if (carIndex > -1) {
+            cars.splice(carIndex, 1);
+        }
+        
+        // Remove from featured cars if present
+        const featuredIndex = featuredCars.findIndex(c => c.id === carId);
+        if (featuredIndex > -1) {
+            featuredCars.splice(featuredIndex, 1);
+        }
+        
+        // Refresh displays
+        displayCars();
+        displayFeaturedCars();
+        showMyListings(); // Refresh listings panel
     }
 }
 
+function upgradeToPremium(carId) {
+    const car = cars.find(c => c.id === carId);
+    if (!car) return;
+    
+    // Show payment confirmation
+    if (confirm(`¿Deseas destacar tu publicación por $${FEATURED_LISTING_COST.toLocaleString()}?`)) {
+        processFeaturedPayment(carId);
+        car.featured = true;
+        featuredCars.push(car);
+        displayFeaturedCars();
+        showMyListings(); // Refresh listings panel
+    }
+}
+
+// New function for publishing a car
 function publishCar(event) {
     event.preventDefault();
     const form = event.target;
-    const isFeatured = form.querySelector('input[name="featured"]').checked;
     
-    const imageUrls = selectedImages.map(file => URL.createObjectURL(file));
-    
+    // Create new car object
     const newCar = {
         id: cars.length + 1,
         brand: form.querySelector('[name="brand"]').value,
@@ -1676,27 +1258,84 @@ function publishCar(event) {
         price: parseInt(form.querySelector('[name="price"]').value),
         kilometers: parseInt(form.querySelector('[name="kilometers"]').value),
         vehicleType: form.querySelector('[name="vehicleType"]').value,
-        images: imageUrls,
-        mainImage: imageUrls[0],
-        details: `${form.querySelector('[name="vehicleType"]').value}, ${form.querySelector('[name="kilometers"]').value} km, ${form.querySelector('[name="details"]').value}`,
-        featured: isFeatured,
-        whatsapp: currentUser.whatsapp // Add WhatsApp number from current user
+        whatsapp: form.querySelector('[name="whatsapp"]') ? form.querySelector('[name="whatsapp"]').value : currentUser.whatsapp,
+        details: form.querySelector('[name="details"]').value,
+        featured: form.querySelector('[name="featured"]').checked,
+        images: selectedImages.map(file => URL.createObjectURL(file))
     };
-    
-    if (isFeatured) {
-        featuredCars.unshift(newCar);
+
+    // Add to cars array
+    cars.push(newCar);
+
+    // If featured, add to featured cars
+    if (newCar.featured) {
+        featuredCars.push(newCar);
         displayFeaturedCars();
-        processFeaturedPayment(newCar.id);
     }
-    cars.unshift(newCar);
+
+    // Refresh car display
     displayCars();
+
+    // Clear form
+    form.reset();
+    document.getElementById('imagePreviewGrid').innerHTML = '';
+    selectedImages = [];
+
+    // Close modal
     closeModal('publishModal');
-    alert('¡Auto publicado exitosamente!');
+
+    // Show success message
+    alert('Publicación creada exitosamente');
+}
+
+// Modified existing code to use this as the original function
+const originalPublishCar = publishCar;
+publishCar = function(event) {
+    event.preventDefault();
+    const form = event.target;
+    
+    if (form.dataset.editMode === 'true') {
+        const carId = parseInt(form.dataset.editCarId);
+        const car = cars.find(c => c.id === carId);
+        
+        if (car) {
+            // Update car data
+            car.brand = form.querySelector('[name="brand"]').value;
+            car.model = form.querySelector('[name="model"]').value;
+            car.year = parseInt(form.querySelector('[name="year"]').value);
+            car.price = parseInt(form.querySelector('[name="price"]').value);
+            car.kilometers = parseInt(form.querySelector('[name="kilometers"]').value);
+            car.vehicleType = form.querySelector('[name="vehicleType"]').value;
+            car.details = form.querySelector('[name="details"]').value;
+            
+            // Handle new images if selected
+            if (selectedImages.length > 0) {
+                car.images = selectedImages.map(file => URL.createObjectURL(file));
+            }
+            
+            // Refresh displays
+            displayCars();
+            if (car.featured) {
+                displayFeaturedCars();
+            }
+            
+            // Clear edit mode
+            form.dataset.editMode = false;
+            form.dataset.editCarId = '';
+            
+            closeModal('publishModal');
+            showMyListings();
+            alert('Publicación actualizada exitosamente');
+        }
+    } else {
+        // Handle new publication
+        originalPublishCar.call(this, event);
+    }
     
     form.reset();
     document.getElementById('imagePreviewGrid').innerHTML = '';
     selectedImages = [];
-}
+};
 
 let selectedImages = [];
 
@@ -1775,6 +1414,74 @@ window.addEventListener('click', function(event) {
         }
     }
 });
+
+// New functions added as per the plan
+function login(event) {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.querySelector('input[type="email"]').value;
+    const password = form.querySelector('input[type="password"]').value;
+
+    // Simulate login - in a real app this would validate against a backend
+    currentUser = {
+        email: email,
+        whatsapp: '5491123456789', // This would come from the database in a real app
+        name: 'Usuario Demo'
+    };
+
+    // Update UI
+    updateAuthUI();
+    
+    // Close modal
+    closeModal('loginModal');
+    form.reset();
+}
+
+function logout() {
+    currentUser = null;
+    updateAuthUI();
+    closeModal('userMenuContent');
+}
+
+function register(event) {
+    event.preventDefault();
+    const form = event.target;
+    
+    // Simulate registration - in a real app this would send data to a backend
+    currentUser = {
+        email: form.querySelector('input[name="email"]').value,
+        whatsapp: form.querySelector('input[name="whatsapp"]').value,
+        name: `${form.querySelector('input[name="nombre"]').value} ${form.querySelector('input[name="apellido"]').value}`
+    };
+
+    // Update UI
+    updateAuthUI();
+    
+    // Close modal
+    closeModal('registerModal');
+    form.reset();
+}
+
+function updateAuthUI() {
+    const authButtons = document.getElementById('authButtons');
+    const userMenu = document.getElementById('userMenu');
+    
+    if (currentUser) {
+        authButtons.style.display = 'none';
+        userMenu.style.display = 'block';
+    } else {
+        authButtons.style.display = 'flex';
+        userMenu.style.display = 'none';
+    }
+}
+
+function toggleUserMenu() {
+    document.getElementById('userMenuContent').classList.toggle('show');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
 </script>
 <script type="text/javascript">
    (function() {
@@ -1792,76 +1499,4 @@ window.addEventListener('click', function(event) {
    window.$MPC_loaded !== true ? (window.attachEvent ? window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;
    })();
 </script>
-
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-section">
-            <h3>Acerca de Mercado Autos</h3>
-            <ul>
-                <li><a href="https://mercadoautos.net/sobre-nosotros">Sobre nosotros</a></li>
-                <li><a href="https://mercadoautos.net/trabaja-con-nosotros">Trabaja con nosotros</a></li>
-                <li><a href="https://mercadoautos.net/blog">Blog</a></li>
-                <li><a href="https://mercadoautos.net/prensa">Sala de prensa</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h3>Ayuda</h3>
-            <ul>
-                <li><a href="https://mercadoautos.net/centro-de-ayuda">Centro de ayuda</a></li>
-                <li><a href="https://mercadoautos.net/contacto">Contacto</a></li>
-                <li><a href="https://mercadoautos.net/preguntas-frecuentes">Preguntas frecuentes</a></li>
-                <li><a href="https://mercadoautos.net/reclamos">Reclamos</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h3>Legal</h3>
-            <ul>
-                <li><a href="https://mercadoautos.net/terminos-y-condiciones">Términos y condiciones</a></li>
-                <li><a href="https://mercadoautos.net/privacidad">Política de privacidad</a></li>
-                <li><a href="https://mercadoautos.net/cookies">Política de cookies</a></li>
-                <li><a href="https://mercadoautos.net/legal">Información legal</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h3>Síguenos</h3>
-            <div class="social-icons">
-                <a href="https://facebook.com/mercadoautos.net" class="social-icon" title="Facebook">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                    </svg>
-                </a>
-                <a href="https://instagram.com/mercadoautos_net" class="social-icon" title="Instagram">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                    </svg>
-                </a>
-                <a href="https://twitter.com/mercadoautos.net" class="social-icon" title="Twitter">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
-                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
-                    </svg>
-                </a>
-                <a href="https://linkedin.com/company/mercadoautos.net" class="social-icon" title="LinkedIn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                        <rect x="2" y="9" width="4" height="12"/>
-                        <circle cx="4" cy="4" r="2"/>
-                    </svg>
-                </a>
-            </div>
-            <div style="margin-top: 1rem;">
-                <p>Contacto:</p>
-                <p>Email: contacto@mercadoautos.net</p>
-                <p>Tel: +54 341 303 6177</p>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2024 Mercado Autos. Todos los derechos reservados.</p>
-    </div>
-</footer>
 </body></html>
