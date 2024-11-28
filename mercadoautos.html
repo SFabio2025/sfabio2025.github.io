@@ -1,0 +1,1502 @@
+<html><head><base href="." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoMarket - Tu marketplace de autos</title>
+
+<style>
+:root {
+    --primary: #1259c3;
+    --secondary: #3483fa;
+    --background: #f5f5f5;
+    --text: #333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background: var(--background);
+}
+
+.navbar {
+    background: var(--primary);
+    padding: 1rem;
+    color: white;
+}
+
+.navbar-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-bar {
+    flex: 1;
+    margin: 0 2rem;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: none;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.featured-section {
+    margin-bottom: 2rem;
+}
+
+.featured-heading {
+    color: var(--text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary);
+}
+
+.featured-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.featured-grid {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 1.5rem;
+}
+
+.featured-card {
+    flex: 0 0 300px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    margin-right: 1.5rem;
+    background: white;
+    border-radius: 4px;
+    padding: 1rem;
+    border: 2px solid var(--primary);
+    position: relative;
+}
+
+.featured-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(18, 89, 195, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.carousel-button:hover {
+    background: rgba(18, 89, 195, 1);
+}
+
+.carousel-prev {
+    left: 10px;
+}
+
+.carousel-next {
+    right: 10px;
+}
+
+.filters {
+    background: white;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.car-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.car-card {
+    background: white;
+    border-radius: 4px;
+    padding: 1rem;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.car-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.car-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    background-color: #f0f0f0;
+}
+
+.car-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.car-title {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.car-details {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.btn {
+    background: var(--secondary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: var(--primary);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 90vh; /* Limit height to 90% of viewport height */
+    overflow-y: auto; /* Add vertical scroll when content exceeds height */
+}
+
+/* Add smooth scrollbar styling */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.user-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.user-menu-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: white;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.user-menu-content a {
+    color: var(--text);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.user-menu-content a:hover {
+    background: var(--background);
+}
+
+.show {
+    display: block;
+}
+
+.payment-notice {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    color: #495057;
+}
+
+.registration-payment-button,
+.featured-payment-button {
+    margin-top: 1rem;
+}
+
+.mercadopago-button-container {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.car-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.car-detail-images {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.main-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.thumbnail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.thumbnail {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.thumbnail:hover {
+    opacity: 0.8;
+}
+
+.image-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.preview-item {
+    position: relative;
+    aspect-ratio: 1;
+}
+
+.preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.remove-image {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255,0,0,0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-buttons .btn {
+    text-decoration: none;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.contact-buttons .btn:hover {
+    opacity: 0.9;
+}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-content">
+        <h1>AutoMarket</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar vehículos...">
+        </div>
+        <div class="auth-buttons" id="authButtons">
+            <button class="btn" onclick="showLoginModal()">Iniciar sesión</button>
+            <button class="btn" onclick="showRegisterModal()">Registrarse</button>
+        </div>
+        <div class="user-menu" id="userMenu" style="display: none;">
+            <button class="btn" onclick="toggleUserMenu()">Mi cuenta</button>
+            <div class="user-menu-content" id="userMenuContent">
+                <a href="#" onclick="showPublishModal()">Publicar auto</a>
+                <a href="#" onclick="showMyListings()">Mis publicaciones</a>
+                <a href="#" onclick="logout()">Cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="main-content">
+    <section class="featured-section">
+        <h2 class="featured-heading">Publicaciones Destacadas</h2>
+        <div class="featured-carousel">
+            <button class="carousel-button carousel-prev" onclick="moveCarousel(-1)">&#10094;</button>
+            <div class="featured-grid" id="featuredGrid">
+                <!-- Featured cars will be loaded here dynamically -->
+            </div>
+            <button class="carousel-button carousel-next" onclick="moveCarousel(1)">&#10095;</button>
+        </div>
+    </section>
+
+    <section class="filters">
+        <h2>Filtros</h2>
+        <div class="filter-options">
+            <select id="marca">
+                <option value="">Marca</option>
+                <option value="toyota">Toyota</option>
+                <option value="honda">Honda</option>
+                <option value="volkswagen">Volkswagen</option>
+                <option value="chevrolet">Chevrolet</option>
+            </select>
+            <select id="año">
+                <option value="">Año</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+            </select>
+            <select id="precio">
+                <option value="">Rango de precio</option>
+                <option value="0-10000">$0 - $10,000</option>
+                <option value="10000-20000">$10,000 - $20,000</option>
+                <option value="20000+">$20,000+</option>
+            </select>
+        </div>
+    </section>
+
+    <section class="car-grid" id="carGrid">
+        <!-- Los autos se cargarán dinámicamente -->
+    </section>
+</main>
+
+<!-- Modal de Login -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('loginModal')">&times;</span>
+        <h2>Iniciar sesión</h2>
+        <form id="loginForm" onsubmit="login(event)">
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" required>
+            </div>
+            <div class="form-group">
+                <label>Contraseña:</label>
+                <input type="password" required>
+            </div>
+            <button type="submit" class="btn">Iniciar sesión</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Registro -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('registerModal')">&times;</span>
+        <h2>Registrarse</h2>
+        <form id="registerForm" onsubmit="register(event)">
+            <div class="form-group">
+                <label>Nombre:</label>
+                <input type="text" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label>Apellido:</label>
+                <input type="text" name="apellido" required>
+            </div>
+            <div class="form-group">
+                <label>WhatsApp:</label>
+                <input type="tel" name="whatsapp" pattern="[0-9]+" required>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>Contraseña:</label>
+                <input type="password" name="password" required>
+            </div>
+            <div class="payment-notice">
+                <p>Para completar el registro, debe suscribirse al servicio por $25,000 mensuales</p>
+            </div>
+            <div class="mercadopago-button-container">
+                <a href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380849319a00d01932859d2eb0613" 
+                   name="MP-payButton" 
+                   class='blue-ar-l-rn-none'>Suscribirme</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Publicación -->
+<div id="publishModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('publishModal')">&times;</span>
+        <h2>Publicar auto</h2>
+        <form id="publishForm" onsubmit="publishCar(event)">
+            <div class="form-group">
+                <label>Marca:</label>
+                <input type="text" name="brand" required placeholder="Ej: Toyota, Honda, Volkswagen...">
+            </div>
+            <div class="form-group">
+                <label>Modelo:</label>
+                <input type="text" name="model" required>
+            </div>
+            <div class="form-group">
+                <label>Año:</label>
+                <input type="number" name="year" min="1900" max="2024" required>
+            </div>
+            <div class="form-group">
+                <label>Kilómetros:</label>
+                <input type="number" name="kilometers" min="0" required placeholder="Ej: 58000">
+            </div>
+            <div class="form-group">
+                <label>Tipo de vehículo:</label>
+                <select name="vehicleType" required>
+                    <option value="">Seleccionar tipo</option>
+                    <option value="Sedan">Sedán</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Pickup">Pickup</option>
+                    <option value="Hatchback">Hatchback</option>
+                    <option value="Coupé">Coupé</option>
+                    <option value="Van">Van/Furgón</option>
+                    <option value="Wagon">Rural/Wagon</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Precio:</label>
+                <input type="number" name="price" min="0" required>
+            </div>
+            <div class="form-group">
+                <label>Detalles:</label>
+                <textarea name="details" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Imágenes del vehículo (máximo 10):</label>
+                <input type="file" accept="image/*" name="carImages" multiple required onchange="handleMultipleImages(event)">
+                <p class="help-text">Seleccione hasta 10 imágenes</p>
+                <div class="image-preview-grid" id="imagePreviewGrid"></div>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="featured" onchange="toggleFeaturedPayment()"> 
+                    Publicación destacada ($15,000)
+                </label>
+                <div class="featured-payment-button" style="display: none;"></div>
+            </div>
+            <button type="submit" class="btn">Publicar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Detalle del Auto -->
+<div id="carDetailModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('carDetailModal')">&times;</span>
+        <div id="carDetailContent"></div>
+    </div>
+</div>
+
+<script>
+const cars = [
+    {
+        id: 1,
+        brand: 'Toyota',
+        model: 'Corolla Cross',
+        year: 2023,
+        price: 29990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: [
+            'https://www.toyota.com.ar/sites/default/files/models/colorizer/corolla_cross_blanco_perla.png',
+            'https://www.toyota.com.ar/sites/default/files/models/gallery/corolla_cross_10.jpg',
+            'https://www.toyota.com.ar/sites/default/files/models/gallery/corolla_cross_06.jpg'
+        ],
+        details: 'SUV, 0 km, Automático, Híbrido, XEI CVT Híbrida'
+    },
+    {
+        id: 2,
+        brand: 'Volkswagen',
+        model: 'Taos',
+        year: 2023,
+        price: 27500000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: [
+            'https://www.volkswagen.com.ar/content/dam/onehub_pkw/importers/ar/models/2023/taos-my23/taos-hero-white.png',
+            'https://www.volkswagen.com.ar/content/dam/onehub_pkw/importers/ar/models/2023/taos-my23/taos-lateral-white.png',
+            'https://www.volkswagen.com.ar/content/dam/onehub_pkw/importers/ar/models/2023/taos-my23/taos-back-white.png'
+        ],
+        details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi'
+    },
+    {
+        id: 3,
+        brand: 'Honda',
+        model: 'HR-V',
+        year: 2023,
+        price: 26990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: [
+            'https://www.honda.com.ar/sites/default/files/2023-01/hrv-blanc.png',
+            'https://www.honda.com.ar/sites/default/files/2023-01/hrv-back.png',
+            'https://www.honda.com.ar/sites/default/files/2023-01/hrv-side.png'
+        ],
+        details: 'SUV, 0 km, Automático CVT, Nafta, EXL'
+    }
+];
+
+const featuredCars = [
+    {
+        id: 1,
+        brand: 'Toyota',
+        model: 'Corolla Cross',
+        year: 2023,
+        price: 29990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: [
+            'https://www.toyota.com.ar/sites/default/files/models/colorizer/corolla_cross_blanco_perla.png'
+        ],
+        details: 'SUV, 0 km, Automático, Híbrido, XEI CVT Híbrida',
+        featured: true
+    },
+    {
+        id: 2,
+        brand: 'Honda',
+        model: 'HR-V',
+        year: 2023,
+        price: 26990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: [
+            'https://www.honda.com.ar/sites/default/files/2023-01/hrv-blanc.png'
+        ],
+        details: 'SUV, 0 km, Automático CVT, Nafta, EXL',
+        featured: true
+    },
+    {
+        id: 3,
+        brand: 'Volkswagen', 
+        model: 'Taos',
+        year: 2023,
+        price: 27500000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: [
+            'https://www.volkswagen.com.ar/content/dam/onehub_pkw/importers/ar/models/2023/taos-my23/taos-hero-white.png'
+        ],
+        details: 'SUV, 0 km, Automático, Nafta, Highline 250 TSi',
+        featured: true
+    },
+    {
+        id: 4,
+        brand: 'Ford',
+        model: 'Bronco Sport',
+        year: 2023,
+        price: 31990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: ['https://www.ford.com.ar/content/dam/Ford/website-assets/latam/ar/nameplate/bronco-sport/2023/colorizer/area51/desktop/bronco-sport.jpg'],
+        details: 'SUV, 0 km, Automático, Nafta, Wildtrak',
+        featured: true
+    },
+    {
+        id: 5,
+        brand: 'Chevrolet',
+        model: 'Tracker',
+        year: 2023,
+        price: 25990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: ['https://www.chevrolet.com.ar/content/dam/chevrolet/mercosur/argentina/espanol/index/suv-and-crossovers/2023-tracker/colorizer/01-images/nueva-tracker-summit-white.png'],
+        details: 'SUV, 0 km, Automático, Nafta, Premier',
+        featured: true
+    },
+    {
+        id: 6,
+        brand: 'Jeep',
+        model: 'Renegade',
+        year: 2023,
+        price: 28500000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: ['https://www.jeep.com.ar/content/dam/jeep/products/671/2do/jeep-renegade-sport.png'],
+        details: 'SUV, 0 km, Manual, Nafta, Sport',
+        featured: true
+    },
+    {
+        id: 7,
+        brand: 'Peugeot',
+        model: '2008',
+        year: 2023,
+        price: 26990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: ['https://www.peugeot.com.ar/content/dam/peugeot/argentina/b-2008-suv/colorizer/2008-blanco-nacarado.png'],
+        details: 'SUV, 0 km, Automático, Nafta, Feline',
+        featured: true
+    },
+    {
+        id: 8,
+        brand: 'Renault',
+        model: 'Duster',
+        year: 2023,
+        price: 24990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: ['https://www.renault.com.ar/agg/vn/unique/ClsProductLineModelPortraitGalleryImage/images/vehicles/duster-ph2-argentina.png.ximg.large.webp'],
+        details: 'SUV, 0 km, Manual, Nafta, Iconic',
+        featured: true
+    },
+    {
+        id: 9,
+        brand: 'Fiat',
+        model: 'Pulse',
+        year: 2023,
+        price: 23990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: ['https://www.fiat.com.ar/content/dam/fiat/products/621/ac6/pulse-drive-mt.png'],
+        details: 'SUV, 0 km, Manual, Nafta, Drive',
+        featured: true
+    },
+    {
+        id: 10,
+        brand: 'Nissan',
+        model: 'Kicks',
+        year: 2023,
+        price: 27990000,
+        kilometers: 0,
+        vehicleType: 'SUV',
+        whatsapp: '5491123456789',
+        images: ['https://www.nissan.com.ar/content/dam/Nissan/ar/vehicles/kicks-my20/colors/kicks-gris-plata.png.ximg.l_full_m.smart.png'],
+        details: 'SUV, 0 km, Automático CVT, Nafta, Exclusive',
+        featured: true
+    }
+];
+
+// Initialize MercadoPago
+const mp = new MercadoPago('YOUR_PUBLIC_KEY');
+
+const SUBSCRIPTION_COST = 25000;
+const FEATURED_LISTING_COST = 15000;
+
+async function processRegistrationPayment() {
+    console.log('Subscription payment initiated');
+}
+
+async function processFeaturedPayment(listingId) {
+    try {
+        const response = await fetch('/create-featured-preference', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                description: "Destacar publicación AutoMarket",
+                price: FEATURED_LISTING_COST,
+                listingId: listingId
+            })
+        });
+        
+        const preference = await response.json();
+        
+        const checkout = mp.checkout({
+            preference: {
+                id: preference.id
+            },
+            render: {
+                container: '.featured-payment-button',
+                label: 'Pagar para Destacar'
+            }
+        });
+    } catch (error) {
+        console.error('Error creating payment:', error);
+        alert('Error al procesar el pago');
+    }
+}
+
+let currentPosition = 0;
+const cardsPerView = Math.floor(window.innerWidth / 330); // Approximate width of card + margin
+let autoSlideInterval;
+
+function startAutoSlide() {
+    autoSlideInterval = setInterval(() => {
+        const grid = document.getElementById('featuredGrid');
+        const cards = grid.children;
+        const maxPosition = Math.max(0, cards.length - cardsPerView);
+        
+        if (currentPosition >= maxPosition) {
+            currentPosition = 0;
+        } else {
+            currentPosition++;
+        }
+        
+        grid.style.transform = `translateX(-${currentPosition * 315}px)`;
+        updateCarouselButtons();
+    }, 5000); // Slides every 5 seconds
+}
+
+function stopAutoSlide() {
+    clearInterval(autoSlideInterval);
+}
+
+// Add mouse enter/leave events to stop/start auto-sliding
+document.querySelector('.featured-carousel').addEventListener('mouseenter', stopAutoSlide);
+document.querySelector('.featured-carousel').addEventListener('mouseleave', startAutoSlide);
+
+function moveCarousel(direction) {
+    const grid = document.getElementById('featuredGrid');
+    const cards = grid.children;
+    const maxPosition = Math.max(0, cards.length - cardsPerView);
+    
+    currentPosition = Math.max(0, Math.min(maxPosition, currentPosition + direction));
+    
+    grid.style.transform = `translateX(-${currentPosition * 315}px)`; // 300px card + 15px margin
+}
+
+function displayCars(carsToDisplay = cars) {
+    const carGrid = document.getElementById('carGrid');
+    carGrid.innerHTML = '';
+
+    carsToDisplay.forEach(car => {
+        const carCard = document.createElement('div');
+        carCard.className = 'car-card';
+        carCard.innerHTML = `
+            <img class="car-image" 
+                 src="${car.images[0]}" 
+                 alt="${car.brand} ${car.model} ${car.year}"
+                 width="280" 
+                 height="200"
+                 onerror="this.src='https://via.placeholder.com/280x200?text=Imagen+no+disponible'"
+            >
+            <div class="car-price">$${car.price.toLocaleString()}</div>
+            <h3 class="car-title">${car.brand} ${car.model} ${car.year}</h3>
+            <p class="car-details">${car.details}</p>
+            <button class="btn" onclick="showCarDetail(${car.id})">Ver detalles</button>
+        `;
+        carGrid.appendChild(carCard);
+    });
+}
+
+function displayFeaturedCars() {
+    const featuredGrid = document.getElementById('featuredGrid');
+    featuredGrid.innerHTML = '';
+    currentPosition = 0; // Reset position when updating cards
+
+    featuredCars.forEach(car => {
+        const carCard = document.createElement('div');
+        carCard.className = 'featured-card';
+        carCard.innerHTML = `
+            <div class="featured-badge">Destacado</div>
+            <img class="car-image" 
+                 src="${car.images[0]}" 
+                 alt="${car.brand} ${car.model} ${car.year}"
+                 width="300" 
+                 height="200"
+                 onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+no+disponible'"
+            >
+            <div class="car-price">$${car.price.toLocaleString()}</div>
+            <h3 class="car-title">${car.brand} ${car.model} ${car.year}</h3>
+            <p class="car-details">${car.details}</p>
+            <button class="btn" onclick="showCarDetail(${car.id})">Ver detalles</button>
+        `;
+        featuredGrid.appendChild(carCard);
+    });
+
+    // Update carousel buttons visibility
+    updateCarouselButtons();
+    startAutoSlide(); // Start auto-sliding after displaying cars
+}
+
+function updateCarouselButtons() {
+    const grid = document.getElementById('featuredGrid');
+    const cards = grid.children;
+    const prevButton = document.querySelector('.carousel-prev');
+    const nextButton = document.querySelector('.carousel-next');
+    
+    prevButton.style.display = currentPosition === 0 ? 'none' : 'flex';
+    nextButton.style.display = currentPosition >= cards.length - cardsPerView ? 'none' : 'flex';
+}
+
+// Update the displayFeaturedCars function
+function updateFeaturedCars() {
+    displayFeaturedCars();
+}
+
+// Add window resize handler
+window.addEventListener('resize', () => {
+    currentPosition = 0;
+    document.getElementById('featuredGrid').style.transform = 'translateX(0)';
+    updateCarouselButtons();
+});
+
+function showCarDetail(carId) {
+    const car = cars.find(c => c.id === carId);
+    if (!car) return;
+    
+    const detailContent = document.getElementById('carDetailContent');
+    const contactButtons = `
+        <div class="contact-buttons" style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <a href="https://wa.me/${car.whatsapp}?text=Hola, me interesa tu ${car.brand} ${car.model} ${car.year} publicado en AutoMarket" 
+               target="_blank" 
+               class="btn" 
+               style="background: #25D366; display: flex; align-items: center; gap: 0.5rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                </svg>
+                Contactar por WhatsApp
+            </a>
+        </div>`;
+
+    detailContent.innerHTML = `
+        <div class="car-detail-images">
+            <img class="main-image" 
+                 src="${car.images[0]}" 
+                 alt="${car.brand} ${car.model} ${car.year}"
+                 width="600" 
+                 height="400"
+                 onerror="this.src='https://via.placeholder.com/600x400?text=Imagen+no+disponible'"
+            >
+            <div class="thumbnail-grid">
+                ${car.images.map((img, idx) => `
+                    <img class="thumbnail" 
+                         src="${img}" 
+                         alt="Vista ${idx + 1}"
+                         onclick="changeMainImage(this.src)"
+                         width="80" 
+                         height="80"
+                         onerror="this.src='https://via.placeholder.com/80x80?text=Imagen+no+disponible'"
+                    >
+                `).join('')}
+            </div>
+        </div>
+        <div class="car-detail-grid">
+            <h2>${car.brand} ${car.model} ${car.year}</h2>
+            <div class="car-price">$${car.price.toLocaleString()}</div>
+            
+            <div class="car-spec">
+                <strong>Marca:</strong> ${car.brand}
+            </div>
+            <div class="car-spec">
+                <strong>Modelo:</strong> ${car.model}
+            </div>
+            <div class="car-spec">
+                <strong>Año:</strong> ${car.year}
+            </div>
+            <div class="car-spec">
+                <strong>Kilometraje:</strong> ${car.kilometers} km
+            </div>
+            <div class="car-spec">
+                <strong>Tipo de vehículo:</strong> ${car.vehicleType}
+            </div>
+            <div class="car-spec">
+                <strong>Transmisión:</strong> ${car.details.split(',')[0]}
+            </div>
+            <div class="car-spec">
+                <strong>Combustible:</strong> ${car.details.split(',')[2]}
+            </div>
+            
+            <div class="car-description">
+                <h3>Descripción</h3>
+                <p>${car.details}</p>
+            </div>
+            
+            ${contactButtons}
+        </div>
+    `;
+    
+    document.getElementById('carDetailModal').style.display = 'block';
+}
+
+function changeMainImage(src) {
+    document.querySelector('.main-image').src = src;
+}
+
+function contactSeller(carId) {
+    alert(`Contactando al vendedor del auto #${carId}`);
+}
+
+// Filtros
+document.getElementById('marca').addEventListener('change', filterCars);
+document.getElementById('año').addEventListener('change', filterCars);
+document.getElementById('precio').addEventListener('change', filterCars);
+
+function filterCars() {
+    const marca = document.getElementById('marca').value;
+    const año = document.getElementById('año').value;
+    const precio = document.getElementById('precio').value;
+
+    let filteredCars = cars;
+
+    if (marca) {
+        filteredCars = filteredCars.filter(car => car.brand.toLowerCase() === marca.toLowerCase());
+    }
+
+    if (año) {
+        filteredCars = filteredCars.filter(car => car.year === parseInt(año));
+    }
+
+    if (precio) {
+        const [min, max] = precio.split('-').map(val => parseInt(val) || Infinity);
+        filteredCars = filteredCars.filter(car => car.price >= min && car.price < max);
+    }
+
+    displayCars(filteredCars);
+}
+
+// Inicializar la visualización
+displayCars();
+displayFeaturedCars();
+
+// Búsqueda
+const searchInput = document.querySelector('.search-bar input');
+searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const filteredCars = cars.filter(car => 
+        car.brand.toLowerCase().includes(searchTerm) ||
+        car.model.toLowerCase().includes(searchTerm) ||
+        car.details.toLowerCase().includes(searchTerm)
+    );
+    displayCars(filteredCars);
+});
+
+let currentUser = null;
+
+function showLoginModal() {
+    document.getElementById('loginModal').style.display = 'block';
+}
+
+function showRegisterModal() {
+    document.getElementById('registerModal').style.display = 'block';
+}
+
+function showPublishModal() {
+    document.getElementById('publishModal').style.display = 'block';
+}
+
+function showMyListings() {
+    const userListings = cars.filter(car => car.whatsapp === currentUser.whatsapp);
+    
+    const modalContent = `
+    <div class="modal" id="myListingsModal" style="display: block;">
+        <div class="modal-content" style="width: 95%; max-width: 1200px;">
+            <span class="close" onclick="closeModal('myListingsModal')">&times;</span>
+            <h2>Mis Publicaciones</h2>
+            
+            <div class="listings-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <div class="stat-card" style="background: white; padding: 1rem; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h3>Total de Publicaciones</h3>
+                    <p style="font-size: 2rem; color: var(--primary);">${userListings.length}</p>
+                </div>
+                <div class="stat-card" style="background: white; padding: 1rem; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h3>Publicaciones Destacadas</h3>
+                    <p style="font-size: 2rem; color: var(--primary);">${userListings.filter(car => car.featured).length}</p>
+                </div>
+            </div>
+
+            <div class="listings-table-wrapper" style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; background: white;">
+                    <thead>
+                        <tr style="background: var(--primary); color: white;">
+                            <th style="padding: 1rem;">Imagen</th>
+                            <th style="padding: 1rem;">Vehículo</th>
+                            <th style="padding: 1rem;">Precio</th>
+                            <th style="padding: 1rem;">Estado</th>
+                            <th style="padding: 1rem;">Destacado</th>
+                            <th style="padding: 1rem;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${userListings.map(car => `
+                            <tr style="border-bottom: 1px solid #eee;">
+                                <td style="padding: 1rem;">
+                                    <img src="${car.images[0]}" 
+                                         alt="${car.brand} ${car.model}" 
+                                         style="width: 100px; height: 70px; object-fit: cover; border-radius: 4px;">
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <strong>${car.brand} ${car.model}</strong><br>
+                                    <small>${car.year} - ${car.kilometers}km</small>
+                                </td>
+                                <td style="padding: 1rem;">$${car.price.toLocaleString()}</td>
+                                <td style="padding: 1rem;">
+                                    <span class="status-badge" style="background: #28a745; color: white; padding: 0.25rem 0.5rem; border-radius: 4px;">
+                                        Activa
+                                    </span>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    ${car.featured ? 
+                                        '<span style="color: #ffc107;">★ Destacada</span>' : 
+                                        `<button class="btn" onclick="upgradeToPremium(${car.id})" style="font-size: 0.9rem;">
+                                            Destacar
+                                        </button>`
+                                    }
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn" onclick="editListing(${car.id})" 
+                                                style="background: var(--secondary);">
+                                            Editar
+                                        </button>
+                                        <button class="btn" onclick="deleteListing(${car.id})"
+                                                style="background: #dc3545;">
+                                            Eliminar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>`;
+    
+    // Add modal to body
+    const modalDiv = document.createElement('div');
+    modalDiv.innerHTML = modalContent;
+    document.body.appendChild(modalDiv);
+}
+
+function editListing(carId) {
+    const car = cars.find(c => c.id === carId);
+    if (!car) return;
+    
+    // Pre-fill publish form with car data
+    const form = document.getElementById('publishForm');
+    form.querySelector('[name="brand"]').value = car.brand;
+    form.querySelector('[name="model"]').value = car.model;
+    form.querySelector('[name="year"]').value = car.year;
+    form.querySelector('[name="kilometers"]').value = car.kilometers;
+    form.querySelector('[name="vehicleType"]').value = car.vehicleType;
+    form.querySelector('[name="price"]').value = car.price;
+    form.querySelector('[name="details"]').value = car.details;
+    form.querySelector('[name="featured"]').checked = car.featured;
+    
+    // Add edit mode flag and car ID
+    form.dataset.editMode = true;
+    form.dataset.editCarId = carId;
+    
+    // Show publish modal in edit mode
+    closeModal('myListingsModal');
+    showPublishModal();
+}
+
+function deleteListing(carId) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
+        // Remove from cars array
+        const carIndex = cars.findIndex(c => c.id === carId);
+        if (carIndex > -1) {
+            cars.splice(carIndex, 1);
+        }
+        
+        // Remove from featured cars if present
+        const featuredIndex = featuredCars.findIndex(c => c.id === carId);
+        if (featuredIndex > -1) {
+            featuredCars.splice(featuredIndex, 1);
+        }
+        
+        // Refresh displays
+        displayCars();
+        displayFeaturedCars();
+        showMyListings(); // Refresh listings panel
+    }
+}
+
+function upgradeToPremium(carId) {
+    const car = cars.find(c => c.id === carId);
+    if (!car) return;
+    
+    // Show payment confirmation
+    if (confirm(`¿Deseas destacar tu publicación por $${FEATURED_LISTING_COST.toLocaleString()}?`)) {
+        processFeaturedPayment(carId);
+        car.featured = true;
+        featuredCars.push(car);
+        displayFeaturedCars();
+        showMyListings(); // Refresh listings panel
+    }
+}
+
+// New function for publishing a car
+function publishCar(event) {
+    event.preventDefault();
+    const form = event.target;
+    
+    // Create new car object
+    const newCar = {
+        id: cars.length + 1,
+        brand: form.querySelector('[name="brand"]').value,
+        model: form.querySelector('[name="model"]').value,
+        year: parseInt(form.querySelector('[name="year"]').value),
+        price: parseInt(form.querySelector('[name="price"]').value),
+        kilometers: parseInt(form.querySelector('[name="kilometers"]').value),
+        vehicleType: form.querySelector('[name="vehicleType"]').value,
+        whatsapp: form.querySelector('[name="whatsapp"]') ? form.querySelector('[name="whatsapp"]').value : currentUser.whatsapp,
+        details: form.querySelector('[name="details"]').value,
+        featured: form.querySelector('[name="featured"]').checked,
+        images: selectedImages.map(file => URL.createObjectURL(file))
+    };
+
+    // Add to cars array
+    cars.push(newCar);
+
+    // If featured, add to featured cars
+    if (newCar.featured) {
+        featuredCars.push(newCar);
+        displayFeaturedCars();
+    }
+
+    // Refresh car display
+    displayCars();
+
+    // Clear form
+    form.reset();
+    document.getElementById('imagePreviewGrid').innerHTML = '';
+    selectedImages = [];
+
+    // Close modal
+    closeModal('publishModal');
+
+    // Show success message
+    alert('Publicación creada exitosamente');
+}
+
+// Modified existing code to use this as the original function
+const originalPublishCar = publishCar;
+publishCar = function(event) {
+    event.preventDefault();
+    const form = event.target;
+    
+    if (form.dataset.editMode === 'true') {
+        const carId = parseInt(form.dataset.editCarId);
+        const car = cars.find(c => c.id === carId);
+        
+        if (car) {
+            // Update car data
+            car.brand = form.querySelector('[name="brand"]').value;
+            car.model = form.querySelector('[name="model"]').value;
+            car.year = parseInt(form.querySelector('[name="year"]').value);
+            car.price = parseInt(form.querySelector('[name="price"]').value);
+            car.kilometers = parseInt(form.querySelector('[name="kilometers"]').value);
+            car.vehicleType = form.querySelector('[name="vehicleType"]').value;
+            car.details = form.querySelector('[name="details"]').value;
+            
+            // Handle new images if selected
+            if (selectedImages.length > 0) {
+                car.images = selectedImages.map(file => URL.createObjectURL(file));
+            }
+            
+            // Refresh displays
+            displayCars();
+            if (car.featured) {
+                displayFeaturedCars();
+            }
+            
+            // Clear edit mode
+            form.dataset.editMode = false;
+            form.dataset.editCarId = '';
+            
+            closeModal('publishModal');
+            showMyListings();
+            alert('Publicación actualizada exitosamente');
+        }
+    } else {
+        // Handle new publication
+        originalPublishCar.call(this, event);
+    }
+    
+    form.reset();
+    document.getElementById('imagePreviewGrid').innerHTML = '';
+    selectedImages = [];
+};
+
+let selectedImages = [];
+
+function handleMultipleImages(event) {
+    const files = Array.from(event.target.files);
+    const previewGrid = document.getElementById('imagePreviewGrid');
+    
+    if (files.length > 10) {
+        alert('Por favor seleccione un máximo de 10 imágenes');
+        event.target.value = '';
+        return;
+    }
+    
+    previewGrid.innerHTML = '';
+    selectedImages = [];
+    
+    files.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            selectedImages.push(file);
+            
+            const previewItem = document.createElement('div');
+            previewItem.className = 'preview-item';
+            previewItem.innerHTML = `
+                <img src="${e.target.result}" alt="Preview ${index + 1}">
+                <button class="remove-image" onclick="removeImage(${index})">&times;</button>
+            `;
+            previewGrid.appendChild(previewItem);
+        }
+        reader.readAsDataURL(file);
+    });
+}
+
+function removeImage(index) {
+    selectedImages.splice(index, 1);
+    updateImagePreviews();
+}
+
+function updateImagePreviews() {
+    const previewGrid = document.getElementById('imagePreviewGrid');
+    previewGrid.innerHTML = '';
+    
+    selectedImages.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const previewItem = document.createElement('div');
+            previewItem.className = 'preview-item';
+            previewItem.innerHTML = `
+                <img src="${e.target.result}" alt="Preview ${index + 1}">
+                <button class="remove-image" onclick="removeImage(${index})">&times;</button>
+            `;
+            previewGrid.appendChild(previewItem);
+        }
+        reader.readAsDataURL(file);
+    });
+}
+
+// Event listeners para cerrar modales al hacer clic fuera
+window.onclick = function(event) {
+    const modals = document.getElementsByClassName('modal');
+    for (let modal of modals) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+// Cerrar menú de usuario al hacer clic fuera
+window.addEventListener('click', function(event) {
+    if (!event.target.matches('.btn')) {
+        const dropdowns = document.getElementsByClassName('user-menu-content');
+        for (let dropdown of dropdowns) {
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        }
+    }
+});
+
+// New functions added as per the plan
+function login(event) {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.querySelector('input[type="email"]').value;
+    const password = form.querySelector('input[type="password"]').value;
+
+    // Simulate login - in a real app this would validate against a backend
+    currentUser = {
+        email: email,
+        whatsapp: '5491123456789', // This would come from the database in a real app
+        name: 'Usuario Demo'
+    };
+
+    // Update UI
+    updateAuthUI();
+    
+    // Close modal
+    closeModal('loginModal');
+    form.reset();
+}
+
+function logout() {
+    currentUser = null;
+    updateAuthUI();
+    closeModal('userMenuContent');
+}
+
+function register(event) {
+    event.preventDefault();
+    const form = event.target;
+    
+    // Simulate registration - in a real app this would send data to a backend
+    currentUser = {
+        email: form.querySelector('input[name="email"]').value,
+        whatsapp: form.querySelector('input[name="whatsapp"]').value,
+        name: `${form.querySelector('input[name="nombre"]').value} ${form.querySelector('input[name="apellido"]').value}`
+    };
+
+    // Update UI
+    updateAuthUI();
+    
+    // Close modal
+    closeModal('registerModal');
+    form.reset();
+}
+
+function updateAuthUI() {
+    const authButtons = document.getElementById('authButtons');
+    const userMenu = document.getElementById('userMenu');
+    
+    if (currentUser) {
+        authButtons.style.display = 'none';
+        userMenu.style.display = 'block';
+    } else {
+        authButtons.style.display = 'flex';
+        userMenu.style.display = 'none';
+    }
+}
+
+function toggleUserMenu() {
+    document.getElementById('userMenuContent').classList.toggle('show');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+</script>
+<script type="text/javascript">
+   (function() {
+      function $MPC_load() {
+         window.$MPC_loaded !== true && (function() {
+         var s = document.createElement("script");
+         s.type = "text/javascript";
+         s.async = true;
+         s.src = document.location.protocol + "//secure.mlstatic.com/mptools/render.js";
+         var x = document.getElementsByTagName('script')[0];
+         x.parentNode.insertBefore(s, x);
+         window.$MPC_loaded = true;
+      })();
+   }
+   window.$MPC_loaded !== true ? (window.attachEvent ? window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;
+   })();
+</script>
+</body></html>
